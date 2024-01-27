@@ -3,7 +3,7 @@
 from openai import OpenAI
 import streamlit as st
 
-client = OpenAI(key=st.secrets['OPENAI_API_KEY'],
+#client = OpenAI(key=st.secrets['OPENAI_API_KEY'],
 api_key=st.text_input('Enter OpenAI API token:', type='password'))
 
 
