@@ -7,15 +7,6 @@ import streamlit as st
 #api_key=st.text_input('Enter OpenAI API token:', type='password')
 
 
-# Developer's api key is in secrets file.
-# dev_api_key = st.secrets['OPENAI_API_KEY']
-import streamlit as st
-from openai import OpenAI
-
-
-# Developer's api key is in secrets file.
-# dev_api_key = st.secrets['OPENAI_API_KEY']
-
 # Ask the user's api key
 with st.form('form'):
     user_api_key = st.text_input('Enter OpenAI API token:', type='password')
