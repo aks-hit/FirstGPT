@@ -1,24 +1,24 @@
 # Code refactored from https://docs.streamlit.io/knowledge-base/tutorials/build-conversational-apps
 
-from openai import OpenAI
-import streamlit as st
+#from openai import OpenAI
+#import streamlit as st
 
-#client = OpenAI(key=st.secrets['OPENAI_API_KEY'],
+
 #api_key=st.text_input('Enter OpenAI API token:', type='password')
 
 
 # Ask the user's api key
-with st.form('form'):
-    user_api_key = st.text_input('Enter OpenAI API token:', type='password')
-    submit = st.form_submit_button('Submit')
+#with st.form('form'):
+ #   user_api_key = st.text_input('Enter OpenAI API token:', type='password')
+  #  submit = st.form_submit_button('Submit')
 
-if submit:
-    if len(user_api_key) == 51 and user_api_key.startswith('sk-'):
-        client = OpenAI(api_key=user_api_key)
-        st.success('api key is successfully entered')
-    else:
-        st.error('Your api key is invalid.')
-        st.stop()
+#if submit:
+ #   if len(user_api_key) == 51 and user_api_key.startswith('sk-'):
+  #      client = OpenAI(api_key=user_api_key)
+   #     st.success('api key is successfully entered')
+    #else:
+     #   st.error('Your api key is invalid.')
+      #  st.stop()
 # Ask the user's api key
 # with st.sidebar:
 #    st.title('🤖💬 OpenAI Chatbot')
@@ -29,7 +29,48 @@ if submit:
 #           st.warning('Please enter your credentials!', icon='⚠️')
 #       else:
 #           st.success('Proceed to entering your prompt message!', icon='👉')
+#client = OpenAI(key=st.secrets['OPENAI_API_KEY']
 
+
+
+import openai
+from openai import OpenAI
+import streamlit as st
+
+
+# Ask the user's api key and check it.
+with st.sidebar:
+    with st.form('form'):
+        user_api_key = st.text_input('Enter OpenAI API token:', type='password')
+        submit = st.form_submit_button('Submit')
+
+    if submit:
+        # Check the api key string.
+        if len(user_api_key) == 51 and user_api_key.startswith('sk-'):
+            # Check the api key authenticity.
+            try:
+                client = OpenAI(api_key=user_api_key)
+                response = client.chat.completions.create(
+                    model='gpt-3.5-turbo',
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": "What is new in openai in 3 words?"}
+                    ],
+                )
+            except openai.AuthenticationError as eer:
+                st.error(eer)
+                st.stop()
+            except Exception as uer:
+                st.error(f'Unexpected error: {uer}')
+                st.stop()
+            # Else if no exception is hit, the key is good.
+            else:
+                st.success('api key is authentic.')
+        else:
+            st.error('Your api key is invalid.')
+            st.stop()
+
+client = OpenAI(api_key=user_api_key)
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
