@@ -52,8 +52,7 @@ with st.sidebar:
                 client = OpenAI(api_key=user_api_key)
                 response = client.chat.completions.create(
                     model='gpt-3.5-turbo',
-                    messages=[{"role": "user", "content": "Hello"}],
-                    max_tokens=10
+                    messages=[{"role": "user", "content": "Hello"}]
                     ],
                 )
             except openai.AuthenticationError as eer:
